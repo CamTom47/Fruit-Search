@@ -3,26 +3,47 @@ const suggestions = document.querySelector('.suggestions ul');
 
 const fruit = ['Apple', 'Apricot', 'Avocado 🥑', 'Banana', 'Bilberry', 'Blackberry', 'Blackcurrant', 'Blueberry', 'Boysenberry', 'Currant', 'Cherry', 'Coconut', 'Cranberry', 'Cucumber', 'Custard apple', 'Damson', 'Date', 'Dragonfruit', 'Durian', 'Elderberry', 'Feijoa', 'Fig', 'Gooseberry', 'Grape', 'Raisin', 'Grapefruit', 'Guava', 'Honeyberry', 'Huckleberry', 'Jabuticaba', 'Jackfruit', 'Jambul', 'Juniper berry', 'Kiwifruit', 'Kumquat', 'Lemon', 'Lime', 'Loquat', 'Longan', 'Lychee', 'Mango', 'Mangosteen', 'Marionberry', 'Melon', 'Cantaloupe', 'Honeydew', 'Watermelon', 'Miracle fruit', 'Mulberry', 'Nectarine', 'Nance', 'Olive', 'Orange', 'Clementine', 'Mandarine', 'Tangerine', 'Papaya', 'Passionfruit', 'Peach', 'Pear', 'Persimmon', 'Plantain', 'Plum', 'Pineapple', 'Pomegranate', 'Pomelo', 'Quince', 'Raspberry', 'Salmonberry', 'Rambutan', 'Redcurrant', 'Salak', 'Satsuma', 'Soursop', 'Star fruit', 'Strawberry', 'Tamarillo', 'Tamarind', 'Yuzu'];
 
+input.addEventListener('keyup', (e) => {
+	results = search(e.target.value);
+	suggestionReset();
+	showSuggestions(results, e.target)
+});
+
+
+function suggestionReset(){
+	if(input.value === ''){
+		suggestions.classList.add('hidden');
+	} else{
+		suggestions.classList.remove('hidden');
+		suggestions.replaceChildren()
+	}
+}
+
 function search(str) {
 	let results = [];
+	let lowerCasedStr = str.toLowerCase();
+	let lowerCasedFruit = [];
 
-	// TODO
+	fruit.forEach((val) => lowerCasedFruit.push(val.toLowerCase()))
+		
+	lowerCasedFruit.filter((val) => {
+		if(val.includes(lowerCasedStr)){
+			results.push(val);
+		}})
 
+	console.log(results);
 	return results;
 }
 
-function searchHandler(e) {
-	// TODO
-}
-
-function showSuggestions(results, inputVal) {
-
-	// TODO
+function showSuggestions(results) {
+	for(let val of results){
+		const fruitLi = document.createElement('li');
+		fruitLi.innerText = val
+		suggestions.append(fruitLi);
+	}
 }
 
 function useSuggestion(e) {
-	// TODO
-}
+	input.value = e.target.innerText}
 
-input.addEventListener('keyup', searchHandler);
 suggestions.addEventListener('click', useSuggestion);
